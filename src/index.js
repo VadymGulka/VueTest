@@ -3,7 +3,7 @@
 //import Vue from 'Vue/dist/vue.esm-browser';
 //import * as Vue from "Vue/dist/vue.esm-browser";
 import { createApp } from 'vue'
-//import App from './components/App.vue'
+//import App from './components/App.vue's
 
 const datos = {
     data() {
