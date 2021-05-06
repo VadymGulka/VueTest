@@ -1,0 +1,16 @@
+// {
+//   "include": ["./src/**/*"],
+//   "allowSyntheticDefaultImports": true,
+//   "noImplicitAny": false,
+//   "allowJs": true
+// }
+{
+  "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+          "components/*": [
+              "src/components/*"
+          ]
+      }
+  }
+}
