@@ -8,7 +8,7 @@
         "eslint:recommended",
         "plugin:vue/base",
         "plugin:vue/vue3-essential",
-        "plugin:vue/vue3-strongly-recommended",
+        //"plugin:vue/vue3-strongly-recommended",
         "plugin:vue/vue3-recommended"
     ],
     "parserOptions": {
@@ -21,6 +21,9 @@
     "rules": {
         "vue/html-self-closing": "off",
         "no-unused-vars": "off",
-        "vue/comment-directive": "off"
+        "vue/comment-directive": "off",
+        "vue/max-attributes-per-line": "off",
+        "vue/html-closing-bracket-newline": "off",
+        "vue/html-indent": "off"
     }
 }

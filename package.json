@@ -12,6 +12,8 @@
     "vue": "^3.0.5"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.168",
+    "@types/vue": "^2.0.0",
     "@vitejs/plugin-vue": "^1.2.2",
     "@vue/compiler-sfc": "^3.0.5",
     "eslint": "^7.25.0",

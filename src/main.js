@@ -1,6 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import Producto from './Producto.vue'
+import ToDo from "./components/ToDo.vue";
+createApp(App).mount('#main')
+createApp(ToDo).mount('#todo')
 
-createApp(App).mount('#base')
-createApp(Producto).mount('#root')
+
+
+

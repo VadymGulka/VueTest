@@ -1,27 +1,36 @@
 <template>
-  <div />
-  <img
-    alt="Vue logo"
-    src="./assets/logo.png"
-  >
-  <HelloWorld msg="Hello Vue 3 + Vite" />
+    <Producto :product="product"></Producto>
 </template>
 
-<script setup>
-import HelloWorld from "./components/HelloWorld.vue";
-
-
-// This starter template is using Vue 3 experimental <script setup> SFCs
-// Check out https://github.com/vuejs/rfcs/blob/script-setup-2/active-rfcs/0000-script-setup.md
+<script>
+import Producto from "./components/Producto.vue";
+export default {
+    components: {
+        Producto,
+    },
+    data() {
+        return {
+            product: {
+                nombre: "Ocean banner",
+                desc: "400 pixels ocean banner",
+                inventory: 10,
+                onSale: true,
+                discount: 40,
+                price: 60,
+                sizes: [
+                    { name: "S", size: "30*20" },
+                    { name: "M", size: "50*40" },
+                    { name: "XL", size: "60*75" },
+                ],
+                variants: [
+                    { color: "Dark", image: "./src/assets/ocean1.jpg" },
+                    { color: "White", image: "./src/assets/ocean2.jpg" },
+                ],
+            },
+        };
+    },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
