@@ -2,7 +2,10 @@
     <div>
         <span class="h1">ToDo-List</span>
         <div>
-            <input v-model="input" type="text" placeholder="Add Todo...." />
+            <form @submit.prevent="addTodo">
+                <input v-model="input" type="text" placeholder="Add Todo...." />
+                <button type="submit">Add todo</button>
+            </form>
         </div>
         <ul v-for="todo in todos" :key="todo.id">
             <li>{{ todo }}</li>
@@ -15,9 +18,14 @@ export default {
     data() {
         return {
             input: null,
-		todos: ["todo1", "todo2"] 
+            todos: ["todo1", "todo2"],
         };
     },
+    methods: {
+          addTodo(){
+                this.todos.push(this.input)
+          }
+    }
 };
 </script>
 
