@@ -2,13 +2,12 @@
     <div class="row">
         <div style="position: relative" class="col">
             <img
+                alt="Image placeholser"
                 class="img-fluid border border-5"
-                height="400"
-                :src="curImage.image"
+                :src="curVariant.image"
             />
-            <div class="imagetext">
-                <span class="h1 text-white">{{ curSize.size }}</span>
-            </div>
+
+            <span class="h1 imagetext text-white">{{ curSize.size }}</span>
         </div>
 
         <div class="col">
@@ -19,44 +18,50 @@
                     <i class="bi bi-cart"></i>Card ({{ curProducts.length }})
                 </button>
             </div>
-
             <p>{{ product.desc }}</p>
+
             <table class="table">
                 <tr>
-                    <td>Inventory</td>
-                    <td>{{ product.inventory }}</td>
+                    <th>Inventory</th>
+                    <td>{{ curVariant.inventory }}</td>
                     <td>
                         <i
-                            v-if="product.inventory >= 100"
+                            v-if="curVariant.inventory >= 100"
+                            class="bi bi-check-circle"
+                        ></i>
+                        <i v-else class="bi bi-exclamation-circle"></i>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>On sale</th>
+                    <td>{{ curVariant.onSale }}</td>
+                    <td>
+                        <i
+                            v-if="curVariant.onSale"
                             class="bi bi-check-circle"
                         ></i>
                         <i v-else class="bi bi-exclamation-circle"></i>
                     </td>
                 </tr>
                 <tr>
-                    <td>On sale</td>
-                    <td>{{ product.onSale }}</td>
-                    <td>
-                        <i v-if="product.onSale" class="bi bi-check-circle"></i>
-                        <i v-else class="bi bi-exclamation-circle"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Descuento</td>
+                    <th>Descuento</th>
                     <td>{{ product.discount + "%" }}</td>
                     <td>
                         {{
-                            "-" + (product.price * product.discount) / 100 + "$"
+                            "-" +
+                            (curVariant.price * product.discount) / 100 +
+                            "$"
                         }}
                     </td>
                 </tr>
                 <tr>
-                    <td>Tamaños</td>
+                    <th>Tamaños</th>
                     <td>{{ sizesCount }}</td>
                     <td>
                         <div class="dropdown">
                             <button
-                                class="btn"
+                                class="btn btn-sm"
                                 type="button"
                                 data-bs-toggle="dropdown"
                             >
@@ -76,12 +81,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Colores</td>
+                    <th>Estilos</th>
                     <td>{{ product.variants.length }}</td>
                     <td>
                         <div class="dropdown">
                             <button
-                                class="btn"
+                                class="btn btn-sm"
                                 type="button"
                                 data-bs-toggle="dropdown"
                             >
@@ -94,8 +99,8 @@
                                 >
                                     <a
                                         class="dropdown-item"
-                                        @mouseover="setImage(variant)"
-                                        @click="setImage(variant)"
+                                        @mouseover="setVariant(variant)"
+                                        @click="setVariant(variant)"
                                         >{{ variant.color }}</a
                                     >
                                 </li>
@@ -106,9 +111,7 @@
             </table>
 
             <div>
-                <span class="h3">{{ product.price + "$" }}</span>
-                <i class="bi bi-chevron-double-right"> </i>
-                <span class="h1">{{ descPrice + "$" }}</span>
+                <span class="h3">{{ curVariant.price + "$" }}</span>
                 <button
                     class="btn btn-success btn-lg float-end"
                     @click="debounceCart"
@@ -117,7 +120,6 @@
                 </button>
             </div>
         </div>
-        <img src="src\assets\banner.jpg" height="300" alt="...test" />
     </div>
 </template>
 
@@ -135,9 +137,10 @@ export default {
     },
     data() {
         return {
-            curImage: null,
+            curVariant: {},
             curSize: null,
             curProducts: [],
+            curImage: this.product.variants[0].image,
         };
     },
 
@@ -154,32 +157,44 @@ export default {
     },
 
     created() {
-        this.responder();
-        this.curImage = this.product.variants[0];
+        this.curVariant = this.product.variants[0];
         this.curSize = this.product.sizes[0];
         this.debounceCart = _.debounce(this.addCart, 500);
     },
 
     methods: {
-        responder() {
-            axios
-                .get("https://yesno.wtf/api")
-                .then((response) => console.log(response.data.answer))
-                .catch((error) => console.log(error));
-        },
-        setImage(val) {
-            this.curImage = val;
-        },
         setSize(val) {
             this.curSize = val;
         },
         addCart() {
-            let add = [this.curSize.name, this.curImage.color, this.descPrice];
-            this.curProducts.push(add);
+            this.curProducts.push({
+                variantID: this.curVariant.id,
+                size: this.curSize.name,
+            });
+        },
+        setVariant(variant) {
+            this.curVariant = variant;
         },
     },
 };
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <style>
 .imagetext {
