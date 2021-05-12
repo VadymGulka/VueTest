@@ -129,18 +129,53 @@
 import _ from "lodash";
 import axios from "axios";
 export default {
-    props: {
-        product: {
-            type: Object,
-            required: true,
-        },
-    },
+    // props: {
+    //     product: {
+    //         type: Object,
+    //         required: true,
+    //     },
+    // },
     data() {
         return {
+            product: {
+                nombre: "Ocean banner",
+                desc: "400 pixels ocean banner",
+                discount: 40,
+                sizes: [
+                    { name: "S", size: "30*20" },
+                    { name: "M", size: "50*40" },
+                    { name: "XL", size: "60*75" },
+                ],
+                variants: [
+                    {
+                        id: 152,
+                        color: "Dark",
+                        image: "./src/assets/ocean1.jpg",
+                        price: 60,
+                        onSale: true,
+                        inventory: 100,
+                    },
+                    {
+                        id: 64,
+                        color: "White",
+                        image: "./src/assets/ocean2.jpg",
+                        price: 80,
+                        onSale: false,
+                        inventory: 30,
+                    },
+                    {
+                        id: 91,
+                        color: "Red",
+                        image: null,
+                        price: 96,
+                        onSale: false,
+                        inventory: 0,
+                    },
+                ],
+            },
             curVariant: {},
             curSize: null,
             curProducts: [],
-            curImage: this.product.variants[0].image,
         };
     },
 
