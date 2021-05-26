@@ -1,80 +1,72 @@
 <template>
-    <div class="row">
+    <div class="p-2 row border">
         <div style="position: relative" class="col">
-            <img
-                alt="Image placeholser"
-                class="img-fluid border border-5"
-                :src="curVariant.image"
-            />
+            <img alt="Image placeholser" class="img-fluid border border-5" :src="curVariant.image" />
 
             <span class="h1 imagetext text-white">{{ curSize.size }}</span>
         </div>
 
         <div class="col">
             <div class="display: inline-block">
-                <span class="h1"> {{ product.nombre }}</span>
+                <span class="h1">{{ product.nombre }}</span>
 
                 <button type="button" class="btn m-2 btn-success float-end">
-                    <i class="bi bi-cart"></i>Card ({{ curProducts.length }})
+                    <i class="bi bi-cart"></i>
+                    Card ({{ curProducts.length }})
                 </button>
             </div>
-            <p>{{ product.desc }}</p>
+            <p>
+                {{ product.desc }}
+            </p>
 
             <table class="table">
                 <tr>
                     <th>Inventory</th>
-                    <td>{{ curVariant.inventory }}</td>
                     <td>
-                        <i
-                            v-if="curVariant.inventory >= 100"
-                            class="bi bi-check-circle"
-                        ></i>
+                        {{ curVariant.inventory }}
+                    </td>
+                    <td>
+                        <i v-if="curVariant.inventory >= 100" class="bi bi-check-circle"></i>
                         <i v-else class="bi bi-exclamation-circle"></i>
                     </td>
                 </tr>
 
                 <tr>
                     <th>On sale</th>
-                    <td>{{ curVariant.onSale }}</td>
                     <td>
-                        <i
-                            v-if="curVariant.onSale"
-                            class="bi bi-check-circle"
-                        ></i>
+                        {{ curVariant.onSale }}
+                    </td>
+                    <td>
+                        <i v-if="curVariant.onSale" class="bi bi-check-circle"></i>
                         <i v-else class="bi bi-exclamation-circle"></i>
                     </td>
                 </tr>
                 <tr>
                     <th>Descuento</th>
-                    <td>{{ product.discount + "%" }}</td>
                     <td>
-                        {{
-                            "-" +
-                            (curVariant.price * product.discount) / 100 +
-                            "$"
-                        }}
+                        {{ product.discount + "%" }}
+                    </td>
+                    <td>
+                        {{ "-" + (curVariant.price * product.discount) / 100 + "$" }}
                     </td>
                 </tr>
                 <tr>
                     <th>Tamaños</th>
-                    <td>{{ sizesCount }}</td>
+                    <td>
+                        {{ sizesCount }}
+                    </td>
                     <td>
                         <div class="dropdown">
-                            <button
-                                class="btn btn-sm"
-                                type="button"
-                                data-bs-toggle="dropdown"
-                            >
-                                Ver
-                            </button>
+                            <button class="btn btn-sm" type="button" data-bs-toggle="dropdown">Ver</button>
                             <ul class="dropdown-menu">
                                 <li v-for="size in product.sizes" :key="size">
                                     <a
                                         class="dropdown-item"
                                         @click="setSize(size)"
                                         @mouseover="setSize(size)"
-                                        >{{ size.size }}</a
                                     >
+                                        {{ size.size }}
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -82,27 +74,21 @@
                 </tr>
                 <tr>
                     <th>Estilos</th>
-                    <td>{{ product.variants.length }}</td>
+                    <td>
+                        {{ product.variants.length }}
+                    </td>
                     <td>
                         <div class="dropdown">
-                            <button
-                                class="btn btn-sm"
-                                type="button"
-                                data-bs-toggle="dropdown"
-                            >
-                                Ver
-                            </button>
+                            <button class="btn btn-sm" type="button" data-bs-toggle="dropdown">Ver</button>
                             <ul class="dropdown-menu">
-                                <li
-                                    v-for="variant in product.variants"
-                                    :key="variant.id"
-                                >
+                                <li v-for="variant in product.variants" :key="variant.id">
                                     <a
                                         class="dropdown-item"
                                         @mouseover="setVariant(variant)"
                                         @click="setVariant(variant)"
-                                        >{{ variant.color }}</a
                                     >
+                                        {{ variant.color }}
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -112,10 +98,7 @@
 
             <div>
                 <span class="h3">{{ curVariant.price + "$" }}</span>
-                <button
-                    class="btn btn-success btn-lg float-end"
-                    @click="debounceCart"
-                >
+                <button class="btn btn-success btn-lg float-end" @click="debounceCart">
                     Añadir a las cesta
                 </button>
             </div>
@@ -142,9 +125,18 @@ export default {
                 desc: "400 pixels ocean banner",
                 discount: 40,
                 sizes: [
-                    { name: "S", size: "30*20" },
-                    { name: "M", size: "50*40" },
-                    { name: "XL", size: "60*75" },
+                    {
+                        name: "S",
+                        size: "30*20",
+                    },
+                    {
+                        name: "M",
+                        size: "50*40",
+                    },
+                    {
+                        name: "XL",
+                        size: "60*75",
+                    },
                 ],
                 variants: [
                     {
@@ -181,10 +173,7 @@ export default {
 
     computed: {
         descPrice: function () {
-            return (
-                this.product.price -
-                (this.product.price * this.product.discount) / 100
-            );
+            return this.product.price - (this.product.price * this.product.discount) / 100;
         },
         sizesCount: function () {
             return Object.keys(this.product.sizes).length;

@@ -6,12 +6,13 @@
       "type": "shell",
       "command": "npm run dev", // Enter your command here
       "group": "none",
+	  "isBackground": true,
       "presentation": {
         "reveal": "never",
         "panel": "dedicated"
       },
       "runOptions": {
-        "runOn": "folderOpen"
+		"runOn": "folderOpen"
       }
     }
   ]
