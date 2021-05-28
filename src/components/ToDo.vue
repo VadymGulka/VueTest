@@ -51,11 +51,8 @@ export default {
 };
 </script>
 
-<style>
-#lista {
-    padding-right: 100px;
-    color: rebeccapurple;
-}
+<style lang="sass" scoped>
+
 </style>
 
 

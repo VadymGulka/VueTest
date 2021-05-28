@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <component :is="$store.state.tab"></component>
-    </div>
+    <component :is="$store.state.tab"></component>
 </template>
 
 <script>

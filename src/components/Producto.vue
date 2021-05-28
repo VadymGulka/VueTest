@@ -1,9 +1,20 @@
 <template>
     <div class="p-2 row border">
         <div style="position: relative" class="col">
-            <img alt="Image placeholser" class="img-fluid border border-5" :src="curVariant.image" />
-
-            <span class="h1 imagetext text-white">{{ curSize.size }}</span>
+            <template v-if="style.image">
+                <span class="h1 imagetext text-white">{{ size.size }}</span>
+                <img alt="Image placeholser" class="img-fluid border border-5" :src="style.image" />
+            </template>
+            <template v-else>
+                <figure>
+                    <img
+                        alt="Image placeholser"
+                        class="img-fluid border border-5"
+                        src="http://placekitten.com/g/320/220"
+                    />
+                    <figcaption>Out of stock</figcaption>
+                </figure>
+            </template>
         </div>
 
         <div class="col">
@@ -23,10 +34,10 @@
                 <tr>
                     <th>Inventory</th>
                     <td>
-                        {{ curVariant.inventory }}
+                        {{ style.inventory }}
                     </td>
                     <td>
-                        <i v-if="curVariant.inventory >= 100" class="bi bi-check-circle"></i>
+                        <i v-if="style.inventory >= 100" class="bi bi-check-circle"></i>
                         <i v-else class="bi bi-exclamation-circle"></i>
                     </td>
                 </tr>
@@ -34,10 +45,10 @@
                 <tr>
                     <th>On sale</th>
                     <td>
-                        {{ curVariant.onSale }}
+                        {{ style.onSale }}
                     </td>
                     <td>
-                        <i v-if="curVariant.onSale" class="bi bi-check-circle"></i>
+                        <i v-if="style.onSale" class="bi bi-check-circle"></i>
                         <i v-else class="bi bi-exclamation-circle"></i>
                     </td>
                 </tr>
@@ -47,7 +58,7 @@
                         {{ product.discount + "%" }}
                     </td>
                     <td>
-                        {{ "-" + (curVariant.price * product.discount) / 100 + "$" }}
+                        {{ "-" + (style.price * product.discount) / 100 + "$" }}
                     </td>
                 </tr>
                 <tr>
@@ -56,48 +67,30 @@
                         {{ sizesCount }}
                     </td>
                     <td>
-                        <div class="dropdown">
-                            <button class="btn btn-sm" type="button" data-bs-toggle="dropdown">Ver</button>
-                            <ul class="dropdown-menu">
-                                <li v-for="size in product.sizes" :key="size">
-                                    <a
-                                        class="dropdown-item"
-                                        @click="setSize(size)"
-                                        @mouseover="setSize(size)"
-                                    >
-                                        {{ size.size }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        <select v-model="size">
+                            <option v-for="curSize in product.sizes" :value="curSize" :key="curSize">
+                                {{ curSize.size }}
+                            </option>
+                        </select>
                     </td>
                 </tr>
                 <tr>
                     <th>Estilos</th>
                     <td>
-                        {{ product.variants.length }}
+                        {{ product.styles.length }}
                     </td>
                     <td>
-                        <div class="dropdown">
-                            <button class="btn btn-sm" type="button" data-bs-toggle="dropdown">Ver</button>
-                            <ul class="dropdown-menu">
-                                <li v-for="variant in product.variants" :key="variant.id">
-                                    <a
-                                        class="dropdown-item"
-                                        @mouseover="setVariant(variant)"
-                                        @click="setVariant(variant)"
-                                    >
-                                        {{ variant.color }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        <select v-model="style">
+                            <option v-for="color in product.styles" :value="color" :key="color">
+                                {{ color.color }}
+                            </option>
+                        </select>
                     </td>
                 </tr>
             </table>
 
             <div>
-                <span class="h3">{{ curVariant.price + "$" }}</span>
+                <span class="h3">{{ style.price + "$" }}</span>
                 <button class="btn btn-success btn-lg float-end" @click="debounceCart">
                     Añadir a las cesta
                 </button>
@@ -110,16 +103,11 @@
 
 <script>
 import _ from "lodash";
-import axios from "axios";
 export default {
-    // props: {
-    //     product: {
-    //         type: Object,
-    //         required: true,
-    //     },
-    // },
     data() {
         return {
+            size: null,
+            style: null,
             product: {
                 nombre: "Ocean banner",
                 desc: "400 pixels ocean banner",
@@ -138,7 +126,7 @@ export default {
                         size: "60*75",
                     },
                 ],
-                variants: [
+                styles: [
                     {
                         id: 152,
                         color: "Dark",
@@ -165,8 +153,6 @@ export default {
                     },
                 ],
             },
-            curVariant: {},
-            curSize: null,
             curProducts: [],
         };
     },
@@ -181,23 +167,17 @@ export default {
     },
 
     created() {
-        this.curVariant = this.product.variants[0];
-        this.curSize = this.product.sizes[0];
+        this.style = this.product.styles[0];
+        this.size = this.product.sizes[0];
         this.debounceCart = _.debounce(this.addCart, 500);
     },
 
     methods: {
-        setSize(val) {
-            this.curSize = val;
-        },
         addCart() {
             this.curProducts.push({
-                variantID: this.curVariant.id,
-                size: this.curSize.name,
+                variantID: this.style.id,
+                size: this.style.name,
             });
-        },
-        setVariant(variant) {
-            this.curVariant = variant;
         },
     },
 };
@@ -206,35 +186,19 @@ export default {
 
 
 
+<style lang="sass" scoped>
+.imagetext
+	position: absolute
+	top: 30%
+	left: 50%
+	transform: translate(-50%, -50%)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-<style>
-.imagetext {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
 .bi-check-circle,
-.bi-exclamation-circle {
-    font-size: 2rem;
-    color: rgb(15, 180, 9);
-}
+.bi-exclamation-circle
+	font-size: 2rem
+	color: rgb(15, 180, 9)
 
-.bi-chevron-double-right {
-    font-size: 1rem;
-    color: rgb(240, 8, 8);
-}
+.bi-chevron-double-right
+	font-size: 1rem
+	color: rgb(240, 8, 8)
 </style>
