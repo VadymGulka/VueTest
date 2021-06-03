@@ -30,8 +30,7 @@ export default {
         };
     },
     mounted() {
-        this.$refs["input"].value = "Todo";
-        alert(this.$refs["input"].baseURI);
+        this.$refs["input"].value = localStorage.savedTab;
     },
     methods: {
         clic(tab) {

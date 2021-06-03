@@ -6,4 +6,5 @@
 		"html",
 		"vue"
 	],
+	"javascript.suggest.autoImports": false
 }
