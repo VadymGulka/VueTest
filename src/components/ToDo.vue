@@ -18,7 +18,7 @@
                 </template>
             </div>
             <div class="col">
-                <span class="h1">Stats: {{ completed + "/" + total }}</span>
+                <span class="h1">Stats: {{ completed + "/" + totalTodos }}</span>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" :style="{ width: width }">{{ width }}</div>
                 </div>
@@ -28,7 +28,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>#<input @change="checkAll" v-model="checkedAll" type="checkbox" /></th>
+                    <th>#<input @change="checkAll" v-model="checkmarkAll" type="checkbox" /></th>
                     <th>ID</th>
                     <th>Text</th>
                     <th>Date</th>
@@ -64,8 +64,8 @@ export default {
     data() {
         return {
             searchString: null,
-            checkedAll: null,
-            todos: null,
+            checkmarkAll: null,
+            todos: [],
             savedTodos: [
                 {
                     checked: true,
@@ -104,13 +104,10 @@ export default {
             ],
         };
     },
-
     computed: {
-        width() {
-            return Math.round((this.completed / this.total) * 100) + "%";
-        },
         completed() {
             let comp = 0;
+
             this.todos.forEach((todo) => {
                 if (todo.checked) {
                     comp++;
@@ -118,7 +115,10 @@ export default {
             });
             return comp;
         },
-        total() {
+        width() {
+            return Math.round((this.completed / this.totalTodos) * 100) + "%";
+        },
+        totalTodos() {
             return this.todos.length;
         },
         enabledTags() {
@@ -131,30 +131,36 @@ export default {
             return enabled;
         },
     },
+    watch: {
+        completed(newValue) {
+            if (newValue == this.totalTodos) {
+                this.checkmarkAll = true;
+            } else {
+                this.checkmarkAll = false;
+            }
+        },
+    },
     created() {
-        this.todos = this.savedTodos.slice().reverse();
+        this.showOrderedTodos();
     },
     methods: {
-        showOrderedTodos() {
-            this.todos = this.savedTodos.slice().reverse();
-        },
         search() {
-			if(this.searchString == ""){
-				this.showOrderedTodos()
-				return null
-			}
+            if (this.searchString == "") {
+                this.showOrderedTodos();
+                return null;
+            }
             this.todos = [];
-            for (var i = this.savedTodos.length-1; i >= 0; i--) {
-                if(!this.savedTodos[i].data.toLowerCase().search(this.searchString.toLowerCase())){
-					this.todos.push(this.savedTodos[i])
-				}
+            for (var i = this.savedTodos.length - 1; i >= 0; i--) {
+                if (!this.savedTodos[i].data.toLowerCase().search(this.searchString.toLowerCase())) {
+                    this.todos.push(this.savedTodos[i]);
+                }
             }
         },
         checkAll() {
-            if (this.checkedAll) {
+            if (this.checkmarkAll) {
                 this.todos.forEach((todo) => (todo.checked = true));
             }
-            if (!this.checkedAll) {
+            if (!this.checkmarkAll) {
                 this.todos.forEach((todo) => (todo.checked = false));
             }
         },
@@ -176,6 +182,9 @@ export default {
             //     setTimeout(() => token.parentNode.classList.remove('copied'), 1000);
             //   }
             // })
+        },
+        showOrderedTodos() {
+            this.todos = this.savedTodos.slice().reverse();
         },
         removeTodo(id) {
             this.todos = this.todos.filter((value) => value.id != id);
