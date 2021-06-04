@@ -88,6 +88,15 @@ export default {
         },
     },
 };
+
+// addEventListener('click', ({target}) => {
+//   if (target === token) {
+//     token.select();
+//     document.execCommand('copy');
+//     token.parentNode.classList.add('copied');
+//     setTimeout(() => token.parentNode.classList.remove('copied'), 1000);
+//   }
+// })
 </script>
 
 
