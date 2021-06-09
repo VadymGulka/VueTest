@@ -130,7 +130,7 @@ export default {
                     {
                         id: 152,
                         color: "Dark",
-                        image: "./src/assets/ocean1.jpg",
+                        image: "../../ocean1.jpg",
                         price: 60,
                         onSale: true,
                         inventory: 100,
@@ -138,7 +138,7 @@ export default {
                     {
                         id: 64,
                         color: "White",
-                        image: "./src/assets/ocean2.jpg",
+                        image: "../../ocean2.jpg",
                         price: 80,
                         onSale: false,
                         inventory: 30,

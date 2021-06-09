@@ -2,22 +2,25 @@
     <div class="container">
         <h1>Todo list</h1>
         <div class="row">
-            <div class="col">
-                <input
-                    @input="search"
-                    class="form-input"
-                    type="text"
-                    v-model="searchString"
-                    placeholder="Search..."
-                />
-                <input class="form-input" type="text" v-model="input" placeholder="Add todo..." />
-                <button class="button" @click="addTodo()">Add todo</button>
+            <div class="col-md-5">
+                <div>
+                    <input
+                        @input="search"
+                        class="form-control"
+                        type="text"
+                        v-model="searchString"
+                        placeholder="Search..."
+                    />
+                    <input class="form-control" type="text" v-model="input" placeholder="Add todo..." />
 
-                <template v-for="(tag, i) in tags" :key="tag">
-                    <input v-model="tags[i].checked" type="checkbox" />{{ tag.name }}
-                </template>
+                    <template v-for="(tag, i) in tags" :key="tag">
+                        <input v-model="tags[i].checked" type="checkbox" />{{ tag.name }}
+                    </template>
+                </div>
+                <button class="btn btn-success" @click="addTodo()">Add todo</button>
+                <button class="btn btn-danger" @click="purge()">Clear todos</button>
             </div>
-            <div class="col">
+            <div class="col-md-6">
                 <span class="h1">Stats: {{ completed + "/" + todos.length }}</span>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" :style="{ width: width }">{{ width }}</div>
@@ -45,7 +48,9 @@
                     <td>{{ todo.data }}</td>
                     <td>{{ todo.date }}</td>
                     <td>{{ todo.tags }}</td>
-                    <td><button @click="removeTodo(todo.id)" class="btn btn-danger">Remove</button></td>
+                    <td>
+                        <button @click="removeTodo(todo.id)" class="btn btn-danger">Remove</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -67,36 +72,7 @@ export default {
             searchString: null,
             checkmarkAll: null,
             todos: [],
-            savedTodos: [
-                {
-                    checked: true,
-                    id: "o71nux3kl",
-                    data: "Task1",
-                    date: "6/3/2021, 3:06:59 PM",
-                    tags: ["Vue"],
-                },
-                {
-                    checked: true,
-                    id: "a1m3h315v",
-                    data: "Task2",
-                    date: "6/3/2021, 3:07:07 PM",
-                    tags: ["Javascript"],
-                },
-                {
-                    checked: false,
-                    id: "gvawczuab",
-                    data: "Task3",
-                    date: "6/3/2021, 3:07:13 PM",
-                    tags: ["Javascript", "Vue"],
-                },
-                {
-                    checked: true,
-                    id: "ph8snoen3",
-                    data: "Task4",
-                    date: "6/3/2021, 3:07:18 PM",
-                    tags: ["Vue"],
-                },
-            ],
+            savedTodos: [],
             input: null,
             tags: [
                 { name: "Javascript", checked: false },
@@ -139,9 +115,13 @@ export default {
         },
     },
     created() {
+        this.savedTodos = JSON.parse(localStorage.savedTodos);
         this.showOrderedTodos();
     },
     methods: {
+        saveToLocal() {
+            localStorage.savedTodos = JSON.stringify(this.savedTodos);
+        },
         search() {
             if (this.searchString == "") {
                 this.showOrderedTodos();
@@ -174,7 +154,9 @@ export default {
             this.todos = this.savedTodos.slice().reverse();
         },
         removeTodo(id) {
-            this.todos = this.todos.filter((value) => value.id != id);
+            this.savedTodos = this.savedTodos.filter((value) => value.id != id);
+            this.saveToLocal();
+            this.showOrderedTodos();
         },
         addTodo() {
             let todo = new newTodo(this.input, this.enabledTags);
@@ -182,6 +164,13 @@ export default {
                 this.savedTodos.push(todo);
                 this.input = null;
             }
+            this.saveToLocal();
+            this.showOrderedTodos();
+        },
+        purge() {
+            console.log(2);
+            this.savedTodos = [];
+            localStorage.savedTodos = "[]";
             this.showOrderedTodos();
         },
     },
@@ -191,8 +180,6 @@ export default {
 
 
 
-<style lang="sass" scoped>
-input
-	margin-left: 20px
+<style lang="scss" scoped>
 </style>
 
