@@ -168,7 +168,6 @@ export default {
             this.showOrderedTodos();
         },
         purge() {
-            console.log(2);
             this.savedTodos = [];
             localStorage.savedTodos = "[]";
             this.showOrderedTodos();
