@@ -18,7 +18,7 @@
                 </template>
             </div>
             <div class="col">
-                <span class="h1">Stats: {{ completed + "/" + totalTodos }}</span>
+                <span class="h1">Stats: {{ completed + "/" + todos.length }}</span>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" :style="{ width: width }">{{ width }}</div>
                 </div>
@@ -38,8 +38,9 @@
             <tbody>
                 <tr v-for="todo in todos" :key="todo">
                     <td><input type="checkbox" v-model="todo.checked" /></td>
-                    <td>
-                        <span :ref="todo.id" @click="clickCopy(todo.id)">{{ todo.id }}</span>
+                    <td @click="copy(todo.id)">
+                        {{ todo.id }}
+                        <input :ref="todo.id" type="hidden" :value="todo.id" />
                     </td>
                     <td>{{ todo.data }}</td>
                     <td>{{ todo.date }}</td>
@@ -107,7 +108,6 @@ export default {
     computed: {
         completed() {
             let comp = 0;
-
             this.todos.forEach((todo) => {
                 if (todo.checked) {
                     comp++;
@@ -116,10 +116,8 @@ export default {
             return comp;
         },
         width() {
-            return Math.round((this.completed / this.totalTodos) * 100) + "%";
-        },
-        totalTodos() {
-            return this.todos.length;
+            let p = Math.round((this.completed / this.todos.length) * 100);
+            return isNaN(p) ? 0 : p + "%";
         },
         enabledTags() {
             let enabled = [];
@@ -133,7 +131,7 @@ export default {
     },
     watch: {
         completed(newValue) {
-            if (newValue == this.totalTodos) {
+            if (newValue == this.todos.length) {
                 this.checkmarkAll = true;
             } else {
                 this.checkmarkAll = false;
@@ -164,24 +162,13 @@ export default {
                 this.todos.forEach((todo) => (todo.checked = false));
             }
         },
-        clickCopy(val) {
-            // TODO Copy ID on lick
-            //     console.log(this.$refs[val]);
-            //     let elemento = this.$refs[val];
-            //     elemento.setArr;
-            //     elemento.select();
-            //     //select();
-            //     //document.execCommand('copy');
-            //     //console.log(par)
-            //
-            // addEventListener('click', ({target}) => {
-            //   if (target === token) {
-            //     token.select();
-            //     document.execCommand('copy');
-            //     token.parentNode.classList.add('copied');
-            //     setTimeout(() => token.parentNode.classList.remove('copied'), 1000);
-            //   }
-            // })
+        copy(id) {
+            let cop = this.$refs[id];
+            cop.setAttribute("type", "text");
+            cop.focus();
+            cop.select();
+            document.execCommand("copy");
+            cop.setAttribute("type", "hidden");
         },
         showOrderedTodos() {
             this.todos = this.savedTodos.slice().reverse();

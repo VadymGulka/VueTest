@@ -7,5 +7,5 @@
 		"vue"
 	],
 	"javascript.suggest.autoImports": false,
-
+	"editor.formatOnSave": true,
 }

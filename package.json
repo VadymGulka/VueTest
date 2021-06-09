@@ -1,6 +1,11 @@
 {
   "name": "vuetest",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "description": "Test vue apps",
+  "repository": {
+    "url": "https://github.com/VadymGulka/VueTest"
+  },
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

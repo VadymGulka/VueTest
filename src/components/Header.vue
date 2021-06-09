@@ -3,6 +3,7 @@
         <nav class="mb-3 navbar navbar-expand navbar-dark bg-success">
             <div class="navbar-nav container-fluid">
                 <a class="navbar-brand px-2" href="#">Navbar</a>
+                <input @change="changeInfo" v-model="input" type="checkbox" />Test
                 <a class="nav-link" href="#">Home</a>
                 <a class="nav-link" href="#">Todo</a>
                 <div class="dropdown">
@@ -27,6 +28,7 @@ export default {
     data() {
         return {
             tabs: ["Pricing", "Producto", "Reviews", "Todo"],
+            input: false,
         };
     },
     mounted() {
@@ -34,8 +36,12 @@ export default {
     },
     methods: {
         clic(tab) {
-            this.$store.commit("change", tab);
+            this.$store.commit("savedTab", tab);
             localStorage.savedTab = tab;
+        },
+        changeInfo() {
+            localStorage.savedInfo = this.input;
+            this.$store.commit("savedInfo", this.input);
         },
     },
 };

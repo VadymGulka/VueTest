@@ -1,42 +1,48 @@
 <template>
-    <div class="row">
-        <!-- <input type="text" v-model="userInput" />
-        <h3>{{ response }}</h3> -->
+    <div class="col">
+        <br /><br /><br /><br /><br />
+        <span class="test">{{ userInput }}</span
+        ><br />
+        <input ref="input" type="hidden" v-model="userInput" />
+        <button @click="copy">Copy input</button>
     </div>
 </template>
 
-<script>
-import axios from "axios";
-
+// <script>
 export default {
     data() {
         return {
-            userInput: "VadymGulka",
-            response: "null",
+            userInput: "Testing",
         };
     },
-    watch: {
-        async userInput(newInput) {
-            const response = await fetch(`https://api.github.com/users/${newInput}`);
-            const usuario = await response.json();
-            this.response = usuario;
-        },
-    },
-    // watch: {
-    //     async userRoles(newRoles) {
-    //         const query = JSON.stringify(newRoles);
-    //         const response = await fetch(`https://reqres.in/api/users?roles=${query}`);
-    //         const { data: users } = await response.json();
-    //         this.users = users;
-    //     },
-    // },
+    computed: {},
     methods: {
-        async usuario(username) {
-            let user = await axios.get(`https://api.github.com/users/${username}`);
-            this.response = JSON.stringify(user.data.login);
+        copy() {
+            let toSelect = this.$refs.input;
+            toSelect.setAttribute("type", "text");
+            toSelect.focus();
+            toSelect.select();
+            document.execCommand("copy");
+            toSelect.setAttribute("type", "hidden");
         },
     },
 };
 </script>
-<style lang="sass" scoped>
+
+<style lang="scss" scoped>
+.test {
+    position: relative;
+    &::before {
+        content: "";
+        position: absolute;
+        top: -40px;
+        left: 30px;
+        height: 30px;
+        width: 100px;
+        background: mediumaquamarine;
+        border: 5px solid mediumaquamarine;
+        border-radius: 2px;
+        clip-path: polygon(0 20%, 100% 20%, 100% 75%, 75% 75%, 75% 100%, 50% 75%, 0% 75%);
+    }
+}
 </style>
