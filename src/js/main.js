@@ -1,6 +1,6 @@
-import App from './App.vue'
-import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
+import App from '../components/App.vue'
+import Header from '../components/Header.vue'
+import Footer from '../components/Footer.vue'
 import { createApp } from 'vue'
 import { createStore } from 'vuex'
 

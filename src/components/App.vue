@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import Info from "./components/Info.vue";
-import Producto from "./components/Producto.vue";
-import Reviews from "./components/Reviews.vue";
-import Todo from "./components/ToDo.vue";
-import Pricing from "./components/Pricing.vue";
+import Info from "./Info.vue";
+import Producto from "./Producto.vue";
+import Reviews from "./Reviews.vue";
+import Todo from "./ToDo.vue";
+import Pricing from "./Pricing.vue";
 export default {
     components: {
         Producto,

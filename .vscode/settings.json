@@ -8,4 +8,17 @@
 	],
 	"javascript.suggest.autoImports": false,
 	"editor.formatOnSave": true,
+	"files.exclude": {
+		"**/node_modules": true,
+		"**/.eslintrc.json": true,
+		"**/.gitattributes": true,
+		"**/.gitignore": true,
+		"**/.prettierrc.js": true,
+		"**/jsconfig.json": true,
+		"**/package-lock.json": true,
+		"**/package.json": true,
+		"**/README.md": true,
+		"**/vite.config.js": true,
+		"**/dist": true,
+	}
 }

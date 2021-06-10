@@ -7,5 +7,5 @@ export default defineConfig({
 	server: {
 		port: 80
 	},
-	base: '/VueTest/'
+	base: '/VueTest/',
 })
