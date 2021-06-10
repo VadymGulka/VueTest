@@ -3,7 +3,7 @@ import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { createApp } from 'vue'
 import { createStore } from 'vuex'
-
+import Books from '../components/Books.vue'
 
 const store = createStore({
 	state() {
@@ -28,8 +28,8 @@ const store = createStore({
 
 createApp(Header).use(store).mount('#header');
 createApp(App).use(store).mount('#app');
-createApp(Footer).mount('#footer')
-
+createApp(Footer).mount('#footer');
+createApp(Books).use(store).mount('#books');
 
 
 
