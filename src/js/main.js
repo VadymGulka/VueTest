@@ -26,12 +26,16 @@ const store = createStore({
 })
 
 
-createApp(Header).use(store).mount('#header');
-createApp(App).use(store).mount('#app');
-createApp(Footer).mount('#footer');
-createApp(Books).use(store).mount('#books');
+
+try {
+	createApp(Header).use(store).mount('#header');
+	createApp(App).use(store).mount('#app');
+	createApp(Footer).mount('#footer');
+	createApp(Books).use(store).mount('#books');
 
 
-
+} catch (error) {
+	throw false
+}
 
 
