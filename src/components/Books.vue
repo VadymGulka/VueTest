@@ -1,4 +1,5 @@
 <template>
+    <!-- TODO Config cards -->
     <div class="row">
         <template v-for="n in 0" :key="n">
             <div class="card m-4" style="width: 10rem">
@@ -13,50 +14,83 @@
     </div>
     <div class="row">
         <div class="col">
-            <button class="btn btn-info" @click="req">Test Fetch</button><br />
-            <textarea v-model="response">d</textarea>
+            <button class="btn btn-success" @click="AddBookJson">Add Books</button><br />
+            <button class="btn btn-info" @click="GetBooksJson">Test Fetch</button><br />
+            <table v-for="i in books" :key="i.id">
+                <td>
+                    {{ i.id }}
+                </td>
+                <td>
+                    {{ i.name }}
+                </td>
+            </table>
+            <h1>Number of books: {{ CountBooks }}</h1>
+            <div v-for="n in input" :key="n.index">
+                <input v-model="input[n]" type="text" />{{ n }}-----------
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-let startId = 1;
-class bookCreator {
-    constructor(name, desc, url, link) {
-        this.id = startId;
-        this.name = name;
-        this.desc = desc;
-        this.imageUrl = url;
-        this.link = link;
-        startId++;
-    }
-}
-
 export default {
     data() {
         return {
-            response: "null",
+            input: [{ name: null }, { desc: null }, { url: null }, { link: null }],
             books: [],
+            Xkey: "$2b$10$3aiaGzTJFQJ.9Xq1HB98luhpa0k0ymDBDcK9/yZG3xTEaNoW7geJy",
         };
     },
-    created() {
-        this.books.push(new bookCreator("testbook", "testdesc", "testurl", "testlink"));
+    computed: {
+        CountBooks() {
+            return this.books.length;
+        },
+    },
+    mounted() {
+        GetBooksJson().then((data) => {
+            data.record.forEach((element) => {
+                this.books.push(element);
+            });
+        });
     },
     methods: {
-        async req() {
-            console.log("Requested...");
-            const response = await fetch("https://api.jsonbin.io/b/60c316a4b274176a77e50bce/latest", {
-                method: "GET",
+        //this.books.push(new bookCreator());
+        async AddBookJson() {
+            console.log("POST book");
+            const response = await fetch("https://api.jsonbin.io/v3/b/60c316a4b274176a77e50bce", {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    "secret-key": "$2b$10$3aiaGzTJFQJ.9Xq1HB98luhpa0k0ymDBDcK9/yZG3xTEaNoW7geJy",
+                    "X-Master-Key": this.Xkey,
+                    // "X-Bin-Versioning": true,
                 },
+                body: JSON.stringify(this.books),
             });
-            response.json().then((data) => console.log(data));
         },
     },
 };
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+async function GetBooksJson() {
+    console.log("GET books");
+    const response = await fetch("https://api.jsonbin.io/v3/b/60c316a4b274176a77e50bce/latest", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "X-Master-key": "$2b$10$3aiaGzTJFQJ.9Xq1HB98luhpa0k0ymDBDcK9/yZG3xTEaNoW7geJy",
+        },
+    });
+    return response.json();
+}
+function bookCreator(id, name, desc, url, link) {
+    this.id = id;
+    this.name = name;
+    this.desc = desc;
+    this.imageUrl = url;
+    this.link = link;
+}
+//TODO Form with "x-key" to add book
+//TODO Fetch json with books info
 // Example POST method implementation:
 // async function postData(url = "", data = {}) {
 //     // Default options are marked with *
