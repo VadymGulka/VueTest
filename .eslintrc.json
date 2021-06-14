@@ -26,6 +26,8 @@
 		"vue/html-closing-bracket-newline": "off",
 		"vue/html-indent": "off",
 		"vue/singleline-html-element-content-newline": "off",
-		"vue/attributes-order":"off"
+		"vue/attributes-order":"off",
+		"vue/attribute-hyphenation": "off",
+		"vue/multiline-html-element-content-newline": "off"
 	}
 }

@@ -1,5 +1,5 @@
 <template>
-    <!-- TODO Config cards -->
+    <Header></Header>
     <div class="row">
         <template v-for="n in 0" :key="n">
             <div class="card m-4" style="width: 10rem">
@@ -14,8 +14,6 @@
     </div>
     <div class="row">
         <div class="col">
-            <button class="btn btn-success" @click="AddBookJson">Add Books</button><br />
-            <button class="btn btn-info" @click="GetBooksJson">Test Fetch</button><br />
             <table v-for="i in books" :key="i.id">
                 <td>
                     {{ i.id }}
@@ -27,10 +25,20 @@
             <h1>Number of books: {{ CountBooks }}</h1>
         </div>
     </div>
+    <TestingGround></TestingGround>
+    <Footer></Footer>
 </template>
 
 <script>
+import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
+import TestingGround from "./components/TestingGround.vue";
 export default {
+    components: {
+        Header,
+        Footer,
+        TestingGround,
+    },
     data() {
         return {
             books: [],
@@ -66,7 +74,6 @@ export default {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 async function GetBooksJson() {
-    console.log("GET books");
     const response = await fetch("https://api.jsonbin.io/v3/b/60c316a4b274176a77e50bce/latest", {
         method: "GET",
         headers: {
@@ -75,13 +82,6 @@ async function GetBooksJson() {
         },
     });
     return response.json();
-}
-function bookCreator(id, name, desc, url, link) {
-    this.id = id;
-    this.name = name;
-    this.desc = desc;
-    this.imageUrl = url;
-    this.link = link;
 }
 //TODO Form with "x-key" to add book
 //TODO Fetch json with books info

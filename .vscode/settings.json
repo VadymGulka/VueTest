@@ -17,5 +17,8 @@
 		"**/jsconfig.json": true,
 		"**/package-lock.json": true,
 		"**/dist": true,
+		"**/stats.html": true,
+		"**/README.md": true,
+		"**/package.json": true
 	}
 }

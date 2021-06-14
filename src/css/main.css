@@ -1,9 +1,0 @@
-@import "bootstrap";
-/* @import "bootstrap-icons"; */
-/* @import "bootstrap-icons/font/bootstrap-icons.css"; */
-@import "/node_modules/bootstrap-icons/font/bootstrap-icons.css";
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap");
-
-body {
-  font-family: "Manrope", sans-serif;
-}

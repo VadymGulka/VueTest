@@ -3,7 +3,6 @@
         <nav class="mb-3 navbar navbar-expand navbar-dark bg-success">
             <div class="navbar-nav container-fluid">
                 <a class="navbar-brand px-2" href="#">Navbar</a>
-                <input @change="changeInfo" v-model="input" type="checkbox" />Test
                 <a class="nav-link" href="#">Home</a>
                 <a class="nav-link" href="#">Todo</a>
                 <div class="dropdown">
