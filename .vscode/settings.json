@@ -16,8 +16,6 @@
 		"**/.prettierrc.js": true,
 		"**/jsconfig.json": true,
 		"**/package-lock.json": true,
-		"**/package.json": true,
-		"**/README.md": true,
 		"**/dist": true,
 	}
 }

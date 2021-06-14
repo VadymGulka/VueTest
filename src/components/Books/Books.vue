@@ -25,9 +25,6 @@
                 </td>
             </table>
             <h1>Number of books: {{ CountBooks }}</h1>
-            <div v-for="n in input" :key="n.index">
-                <input v-model="input[n]" type="text" />{{ n }}-----------
-            </div>
         </div>
     </div>
 </template>
@@ -36,7 +33,6 @@
 export default {
     data() {
         return {
-            input: [{ name: null }, { desc: null }, { url: null }, { link: null }],
             books: [],
             Xkey: "$2b$10$3aiaGzTJFQJ.9Xq1HB98luhpa0k0ymDBDcK9/yZG3xTEaNoW7geJy",
         };
@@ -54,7 +50,6 @@ export default {
         });
     },
     methods: {
-        //this.books.push(new bookCreator());
         async AddBookJson() {
             console.log("POST book");
             const response = await fetch("https://api.jsonbin.io/v3/b/60c316a4b274176a77e50bce", {
@@ -62,7 +57,6 @@ export default {
                 headers: {
                     "Content-Type": "application/json",
                     "X-Master-Key": this.Xkey,
-                    // "X-Bin-Versioning": true,
                 },
                 body: JSON.stringify(this.books),
             });

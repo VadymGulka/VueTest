@@ -3,7 +3,7 @@ import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import { createApp } from 'vue'
 import { createStore } from 'vuex'
-import Books from '../components/Books.vue'
+import Books from '../components/Books/Books.vue'
 
 const store = createStore({
 	state() {

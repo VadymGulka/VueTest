@@ -9,14 +9,16 @@ export default defineConfig({
 		port: 80
 	},
 	build: {
+		outDir: "docs",
 		rollupOptions: {
 			input: {
 				index: resolve(__dirname, 'index.html'),
 				books: resolve(__dirname, 'src/pages/books.html'),
 				vue1: resolve(__dirname, 'src/pages/vue.html')
 			}
-		}
-	}
+		},
+
+	},
 
 })
 
