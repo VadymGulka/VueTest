@@ -4,6 +4,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 const { resolve } = require('path');
 // https://vitejs.dev/config/
 export default defineConfig({
+	base: "/docs/",
 	plugins: [vue(), visualizer()],
 	server: {
 		port: 80
