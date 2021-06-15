@@ -1,19 +1,35 @@
 # VueTest
 
-## [Vue](https://v3.vuejs.org/)
+TODO Prop bookid to AddBookModal
+TODO Delete behaviur
+TODO Modify books option
+TODO Notificacion on book add
+TODO Header/Footer/Modal
+TODO Modify Cards
 
-## [Vite](https://vitejs.dev/)
+TODO Maganzines with Vue router
 
-## [Bootstrap](https://getbootstrap.com/)
+## JS
 
-## [MDboostrap](https://mdbootstrap.com/docs/b5/vue/)
+- [Vite](https://vitejs.dev/)
+- [Vue](https://v3.vuejs.org/)
+- [Vuex](https://vuex.vuejs.org/)
+- [Vue Material](https://vuematerial.io/)
+- [Vue Router ](https://router.vuejs.org/)
 
-## [Git](https://git-scm.com/)
+## CSS
 
-## [Jsonbin](https://jsonbin.io/)
+- [Bootstrap](https://getbootstrap.com/)
+- [Bootstrap Icons](https://icons.getbootstrap.com/#usage)
 
-## [Firebase](https://firebase.google.com/)
+## Other
 
-## []()
+- [GraphQL](https://graphql.org/)
+
+## Serices
+
+- [Git](https://git-scm.com/)
+- [Jsonbin](https://jsonbin.io/)
+- [Firebase](https://firebase.google.com/)
 
 ## []()

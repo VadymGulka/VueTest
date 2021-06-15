@@ -1,5 +1,5 @@
 <template>
-    <div style="padding-top: 1000px"></div>
+    <div style="padding-top: 200px"></div>
 
     <footer class="text-centerbg-light text-muted">
         <div class="container text-center">

@@ -1,113 +1,90 @@
 <template>
     <Header></Header>
     <div class="row">
-        <template v-for="n in 0" :key="n">
-            <div class="card m-4" style="width: 10rem">
-                <img src="https://via.placeholder.com/50" class="card-img-top" alt="..." />
+        <div class="col">
+            <h1>Number of books: {{ books.length }}</h1>
+            <button class="btn btn-danger" @click="RefreshBooksList">Refresh Books</button>
+            <AddBookModal></AddBookModal>
+        </div>
+    </div>
+    <div ref="books"></div>
+    <div class="row">
+        <template v-for="book in books" :key="book.id">
+            <div class="card m-4 p-0" style="width: 12rem">
+                <img :src="book.image" class="card-img-top" alt="[-image_link-]" />
                 <div class="card-body">
-                    <h5 class="card-title">Components</h5>
-                    <p class="card-text">Some quick example text to build on the card title</p>
-                    <a href="src/pages/vue.html" class="btn btn-primary">Go somewhere</a>
+                    <h5 class="card-title">{{ book.name }}</h5>
+                    <p class="card-text">{{ book.desc }}</p>
+                    <a :href="book.dblink" class="btn btn-primary">Book link</a>
                 </div>
             </div>
         </template>
     </div>
-    <div class="row">
-        <div class="col">
-            <table v-for="i in books" :key="i.id">
-                <td>
-                    {{ i.id }}
-                </td>
-                <td>
-                    {{ i.name }}
-                </td>
-            </table>
-            <h1>Number of books: {{ CountBooks }}</h1>
-        </div>
-    </div>
-    <TestingGround></TestingGround>
+
     <Footer></Footer>
 </template>
 
 <script>
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
-import TestingGround from "./components/TestingGround.vue";
+import AddBookModal from "./components/AddBookModal.vue";
 export default {
     components: {
         Header,
         Footer,
-        TestingGround,
+        AddBookModal,
     },
     data() {
         return {
             books: [],
-            Xkey: "$2b$10$3aiaGzTJFQJ.9Xq1HB98luhpa0k0ymDBDcK9/yZG3xTEaNoW7geJy",
         };
     },
-    computed: {
-        CountBooks() {
-            return this.books.length;
-        },
-    },
     mounted() {
-        GetBooksJson().then((data) => {
-            data.record.forEach((element) => {
-                this.books.push(element);
-            });
-        });
+        this.RefreshBooksList();
     },
     methods: {
-        async AddBookJson() {
-            console.log("POST book");
-            const response = await fetch("https://api.jsonbin.io/v3/b/60c316a4b274176a77e50bce", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-Master-Key": this.Xkey,
-                },
-                body: JSON.stringify(this.books),
+        RefreshBooksList() {
+            this.books = [];
+            this.$refs.books.classList.add("loader");
+            this.GetBooksJson().then((data) => {
+                this.$refs.books.classList.remove("loader");
+                this.books = data;
             });
+        },
+        async GetBooksJson() {
+            const response = await fetch(
+                "https://booksal-2ceb1-default-rtdb.europe-west1.firebasedatabase.app/Books.json?print=pretty",
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            return response.json();
         },
     },
 };
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-async function GetBooksJson() {
-    const response = await fetch("https://api.jsonbin.io/v3/b/60c316a4b274176a77e50bce/latest", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "X-Master-key": "$2b$10$3aiaGzTJFQJ.9Xq1HB98luhpa0k0ymDBDcK9/yZG3xTEaNoW7geJy",
-        },
-    });
-    return response.json();
-}
-//TODO Form with "x-key" to add book
-//TODO Fetch json with books info
-// Example POST method implementation:
-// async function postData(url = "", data = {}) {
-//     // Default options are marked with *
-//     const response = await fetch(url, {
-//         method: "POST", // *GET, POST, PUT, DELETE, etc.
-//         mode: "cors", // no-cors, *cors, same-origin
-//         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-//         credentials: "same-origin", // include, *same-origin, omit
-//         headers: {
-//             "Content-Type": "application/json",
-//             // 'Content-Type': 'application/x-www-form-urlencoded',
-//         },
-//         redirect: "follow", // manual, *follow, error
-//         referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-//         body: JSON.stringify(data), // body data type must match "Content-Type" header
-//     });
-//     return response.json(); // parses JSON response into native JavaScript objects
-// }
-
-// postData("https://example.com/answer", { answer: 42 }).then((data) => {
-//     console.log(data); // JSON data parsed by `data.json()` call
-// });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.loader {
+    position: relative;
+    margin: auto;
+    margin-top: 100px;
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 60%;
+    width: 200px;
+    height: 200px;
+    animation: spin 2s linear infinite;
+}
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
 </style>
