@@ -1,26 +1,42 @@
 <template>
     <Header></Header>
+    <!-- <Testing></Testing> -->
     <div class="row">
         <div class="col">
             <h1>Number of books: {{ books.length }}</h1>
             <button class="btn btn-danger" @click="RefreshBooksList">Refresh Books</button>
-            <AddBookModal></AddBookModal>
+            <AddBookModal @RefreshBooksList="RefreshBooksList()" :bookId="books.length"></AddBookModal>
         </div>
     </div>
-    <div ref="books"></div>
-    <div class="row">
+    <div ref="loader"></div>
+    <div class="row m-1">
         <template v-for="book in books" :key="book.id">
-            <div class="card m-4 p-0" style="width: 12rem">
-                <img :src="book.image" class="card-img-top" alt="[-image_link-]" />
+            <div class="card m-2 p-0 border-dark">
+                <img :src="book.image" class="card-img-top" alt="..." />
                 <div class="card-body">
-                    <h5 class="card-title">{{ book.name }}</h5>
+                    <h5 class="card-title">Book{{ book.name }}</h5>
+                    <footer class="blockquote-footer">Book author</footer>
                     <p class="card-text">{{ book.desc }}</p>
-                    <a :href="book.dblink" class="btn btn-primary">Book link</a>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Book Type</li>
+                    <li class="list-group-item">Year realesedy</li>
+                </ul>
+                <div class="card-body">
+                    <i class="bi bi-book"></i>
+                    <a :href="book.dblink" role="button" class="card-link btn btn-info">Book link</a>
+                    <i class="bi bi-book"></i>
+                    <a :href="book.dblink" role="button" class="btn btn-info card-link border-r">Book link</a>
+                    <details>
+                        <summary>Epcot Center</summary>
+                        <p>
+                            Epcot is a theme park at Walt Disney World Resort featuring exciting attractions.
+                        </p>
+                    </details>
                 </div>
             </div>
         </template>
     </div>
-
     <Footer></Footer>
 </template>
 
@@ -28,11 +44,14 @@
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 import AddBookModal from "./components/AddBookModal.vue";
+import Testing from "./components/Testing.vue";
 export default {
     components: {
         Header,
         Footer,
         AddBookModal,
+        // eslint-disable-next-line
+        Testing,
     },
     data() {
         return {
@@ -45,9 +64,9 @@ export default {
     methods: {
         RefreshBooksList() {
             this.books = [];
-            this.$refs.books.classList.add("loader");
+            this.$refs.loader.classList.add("loader");
             this.GetBooksJson().then((data) => {
-                this.$refs.books.classList.remove("loader");
+                this.$refs.loader.classList.remove("loader");
                 this.books = data;
             });
         },
@@ -86,5 +105,13 @@ export default {
     100% {
         transform: rotate(360deg);
     }
+}
+.card {
+    width: auto;
+}
+.card-img-top {
+    height: 200px;
+    // width: 50% % 22;
+    object-fit: cover;
 }
 </style>

@@ -10,25 +10,56 @@
         Add new book
     </button>
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1">
+    <div class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h3 class="modal-title">Add new book</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
+
                 <div class="modal-body">
-                    <span class="h3">Add new book</span>
-                    <input v-model="AddBookData.name" class="form-control mb-2" placeholder="Name" />
-                    <input v-model="AddBookData.desc" class="form-control mb-2" placeholder="Description" />
-                    <input v-model="AddBookData.image" class="form-control mb-2" placeholder="Image link" />
-                    <input v-model="AddBookData.dblink" class="form-control mb-2" placeholder="DB link" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" @click="AddBookDB" class="btn btn-primary" data-bs-dismiss="modal">
-                        Save changes1
-                    </button>
+                    <span class="h5 text-muted">Book data</span>
+                    <div class="row">
+                        <div class="col-2 ml-2 col-form-label">ID:</div>
+                        <div class="col">
+                            <input :value="bookId" disabled class="form-control mb-2" />
+                        </div>
+                    </div>
+                    <form ref="form">
+                        <input
+                            v-model="AddBookData.name"
+                            class="form-control mb-2"
+                            placeholder="Name"
+                            required
+                        />
+                        <input
+                            v-model="AddBookData.desc"
+                            class="form-control mb-2"
+                            placeholder="Description"
+                            required
+                        />
+                        <input v-model="AddBookData.dblink" class="form-control mb-2" placeholder="DB link" />
+                        <div class="row m-0">
+                            <label for="staticEmail" class="col-sm-2 col-form-label">Image</label>
+                            <input class="form-control col mb-2" type="file" id="formFile" />
+                            <input
+                                v-model="AddBookData.image"
+                                class="form-control mb-2"
+                                placeholder="Image link"
+                                required
+                            />
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="button" @click="AddBook()" class="btn btn-primary">
+                                Save changes
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -37,34 +68,44 @@
 
 <script>
 export default {
+    props: {
+        bookId: {
+            type: Number,
+            default: 1000,
+        },
+    },
+    emits: ["RefreshBooksList"],
     data() {
         return {
             exampleModal: false,
             AddBookData: {
                 name: "Book3",
+                type: "Regular",
                 desc: "Book3Desc",
                 image: "https://via.placeholder.com/250",
                 dblink: "Book3Link",
                 author: "BookAuthor",
                 artist: "BookArtist",
+                magazine: "BookMag",
+                year: 2021,
+                readon: 2021,
             },
-            BookId: null,
         };
     },
     methods: {
-        async FindBookId() {
-            await fetch("https://booksal-2ceb1-default-rtdb.europe-west1.firebasedatabase.app/Books.json", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-                .then((response) => response.json())
-                .then((data) => (this.BookId = data.length));
+        AddBook() {
+            console.log(this.$refs.form.checkValidity());
+            if (this.$refs.form.checkValidity()) {
+                this.AddBookDB();
+                setTimeout(function () {
+                    this.$emit("RefreshBooksList");
+                }, 200);
+            }
         },
         async AddBookDB() {
+            // console.log('{"' + this.bookId + '":' + JSON.stringify(this.AddBookData) + "}"); //Submited Book Data
             await fetch("https://booksal-2ceb1-default-rtdb.europe-west1.firebasedatabase.app/Books.json", {
-                body: '{"' + this.BookId + '":' + JSON.stringify(this.AddBookData) + "}",
+                body: '{"' + this.bookId + '":' + JSON.stringify(this.AddBookData) + "}",
                 headers: {
                     "Content-Type": "application/json",
                 },

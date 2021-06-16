@@ -1,5 +1,7 @@
 # VueTest
 
+TODO Modal pop up on book click
+TODO Option to upload a file or link
 TODO Prop bookid to AddBookModal
 TODO Delete behaviur
 TODO Modify books option
