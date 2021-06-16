@@ -1,16 +1,8 @@
 <template>
     <!-- Button trigger modal -->
-    <button
-        @click="FindBookId"
-        type="button"
-        class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-    >
-        Add new book
-    </button>
+    <button @click="showModal()" type="button" class="btn btn-primary">Add new book</button>
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static">
+    <div ref="modal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -52,12 +44,8 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                Close
-                            </button>
-                            <button type="button" @click="AddBook()" class="btn btn-primary">
-                                Save changes
-                            </button>
+                            <button type="button" class="btn btn-secondary">Close</button>
+                            <button type="button" @click="AddBook()" class="btn btn-primary">Save</button>
                         </div>
                     </form>
                 </div>
@@ -67,6 +55,7 @@
 </template>
 
 <script>
+import * as bootstrap from "../../node_modules/bootstrap/dist/js/bootstrap.js";
 export default {
     props: {
         bookId: {
@@ -92,15 +81,21 @@ export default {
             },
         };
     },
+    mounted() {},
     methods: {
+        showModal() {
+            var modal = new bootstrap.Modal(this.$refs.modal, {
+                backdrop: "static",
+            });
+        },
         AddBook() {
             console.log(this.$refs.form.checkValidity());
-            if (this.$refs.form.checkValidity()) {
-                this.AddBookDB();
-                setTimeout(function () {
-                    this.$emit("RefreshBooksList");
-                }, 200);
-            }
+            // if (this.$refs.form.checkValidity()) {
+            //     this.AddBookDB();
+            //     setTimeout(function () {
+            //         this.$emit("RefreshBooksList");
+            //     }, 200);
+            // }
         },
         async AddBookDB() {
             // console.log('{"' + this.bookId + '":' + JSON.stringify(this.AddBookData) + "}"); //Submited Book Data
